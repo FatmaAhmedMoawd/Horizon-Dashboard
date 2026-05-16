@@ -4,6 +4,7 @@ import type {
   DailyTaskCount,
   Task,
   TaskStatus,
+  PriorityTaskCount,
 } from "./types";
 
 export function filterTasks(tasks: Task[], query: string): Task[] {
@@ -55,4 +56,20 @@ export function getTasksCreatedLast7Days(tasks: Task[]): DailyTaskCount[] {
   }
 
   return days;
+}
+
+export function getTasksByPriorityCount(tasks: Task[]): PriorityTaskCount[] {
+  const counts = { low: 0, medium: 0, high: 0 };
+  
+  tasks.forEach(task => {
+    if (counts[task.priority] !== undefined) {
+      counts[task.priority]++;
+    }
+  });
+  
+  return [
+    { priority: 'Low', count: counts.low },
+    { priority: 'Medium', count: counts.medium },
+    { priority: 'High', count: counts.high }
+  ];
 }

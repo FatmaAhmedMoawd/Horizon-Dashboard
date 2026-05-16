@@ -27,3 +27,8 @@ export interface DailyTaskCount {
   label: string;
   count: number;
 }
+
+export interface PriorityTaskCount {
+  priority: string;
+  count: number;
+}

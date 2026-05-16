@@ -2,6 +2,7 @@
 
 import StatWidgets from "@/features/analytics/ui/StatWidgets";
 import TasksChart from "@/features/analytics/ui/TasksChart";
+import PriorityChart from "@/features/analytics/ui/PriorityChart";
 import DashboardSkeleton from "@/features/analytics/ui/DashboardSkeleton";
 import ErrorBanner from "@/components/ui/ErrorBanner";
 import { useTaskStore } from "@/features/tasks/store/task-store";
@@ -25,8 +26,9 @@ export default function DashboardPage() {
         onRetry={() => void hydrate()}
       />
       <StatWidgets />
-      <div className="mt-5">
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
         <TasksChart />
+        <PriorityChart />
       </div>
     </div>
   );
