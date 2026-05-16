@@ -42,15 +42,15 @@ const Navbar = ({ onOpenSidenav, brandText }: NavbarProps) => {
         </h1>
       </div>
 
-      <div className="flex h-[56px] w-full items-center justify-between gap-2 rounded-full bg-white px-3 py-2 shadow-xl shadow-shadow-500 dark:!bg-navy-800 dark:shadow-none sm:h-[61px] sm:px-4 lg:max-w-[365px] lg:flex-grow-0 xl:w-[365px]">
-        <div className="flex h-full min-w-0 flex-1 items-center rounded-full bg-lightPrimary text-navy-700 dark:bg-navy-900 dark:text-white lg:max-w-[225px]">
+      <div className="flex h-[56px] w-full items-center justify-between gap-2 rounded-full border border-transparent bg-white px-3 py-2 shadow-xl shadow-shadow-500 dark:border-white/10 dark:!bg-navy-800 dark:shadow-none sm:h-[61px] sm:px-4 lg:max-w-[365px] lg:flex-grow-0 xl:w-[365px]">
+        <div className="flex h-full min-w-0 flex-1 items-center rounded-full bg-lightPrimary text-navy-700 dark:!bg-navy-700 dark:text-white lg:max-w-[225px]">
           <span className="pl-2 pr-1 sm:pl-3 sm:pr-2">
-            <FiSearch className="h-4 w-4 shrink-0 text-gray-400 dark:text-white" />
+            <FiSearch className="h-4 w-4 shrink-0 text-gray-400 dark:text-gray-300" />
           </span>
           <input
             type="text"
             placeholder="Search..."
-            className="block h-full min-w-0 flex-1 rounded-full bg-transparent text-sm font-medium text-navy-700 outline-none placeholder:text-gray-400 dark:text-white dark:placeholder:text-white/60"
+            className="navbar-search-input block h-full min-w-0 flex-1 rounded-full bg-transparent text-sm font-medium text-navy-700 outline-none placeholder:text-gray-400 dark:bg-transparent dark:text-white dark:placeholder:text-gray-400"
           />
         </div>
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">

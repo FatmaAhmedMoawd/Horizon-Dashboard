@@ -9,4 +9,17 @@
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.5px;
   }
+
+  .dark .navbar-search-input {
+    color-scheme: dark;
+  }
+
+  .dark .navbar-search-input:-webkit-autofill,
+  .dark .navbar-search-input:-webkit-autofill:hover,
+  .dark .navbar-search-input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #1b254b inset;
+    -webkit-text-fill-color: #ffffff;
+    caret-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }
