@@ -12,6 +12,7 @@
 
   .dark .navbar-search-input {
     color-scheme: dark;
+    background-color: transparent !important;
   }
 
   .dark .navbar-search-input:-webkit-autofill,
