@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -8,14 +9,17 @@ import {
 } from "../model/schemas";
 import { ASSIGNEES } from "@/lib/constants";
 import { useTaskStore } from "../store/task-store";
+import type { Task } from "../model/types";
 
 interface TaskFormModalProps {
   open: boolean;
   onClose: () => void;
+  initialTask?: Task | null;
 }
 
-export default function TaskFormModal({ open, onClose }: TaskFormModalProps) {
+export default function TaskFormModal({ open, onClose, initialTask }: TaskFormModalProps) {
   const addTask = useTaskStore((s) => s.addTask);
+  const updateTask = useTaskStore((s) => s.updateTask);
   const {
     register,
     handleSubmit,
@@ -32,11 +36,35 @@ export default function TaskFormModal({ open, onClose }: TaskFormModalProps) {
     },
   });
 
+  useEffect(() => {
+    if (initialTask) {
+      reset({
+        title: initialTask.title,
+        description: initialTask.description,
+        priority: initialTask.priority,
+        dueDate: initialTask.dueDate,
+        assignee: initialTask.assignee,
+      });
+    } else {
+      reset({
+        title: "",
+        description: "",
+        priority: "medium",
+        dueDate: "",
+        assignee: ASSIGNEES[0],
+      });
+    }
+  }, [initialTask, reset, open]);
+
   if (!open) return null;
 
   const onSubmit = async (data: CreateTaskInput) => {
     try {
-      await addTask(data);
+      if (initialTask) {
+        await updateTask(initialTask.id, data);
+      } else {
+        await addTask(data);
+      }
       reset();
       onClose();
     } catch {
@@ -53,7 +81,7 @@ export default function TaskFormModal({ open, onClose }: TaskFormModalProps) {
       />
       <div className="relative z-10 w-full max-w-lg rounded-[20px] bg-white p-6 shadow-2xl dark:bg-navy-800">
         <h2 className="mb-6 text-xl font-bold text-navy-700 dark:text-white">
-          Add New Task
+          {initialTask ? "Edit Task" : "Add New Task"}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Field label="Title" error={errors.title?.message}>
@@ -115,7 +143,7 @@ export default function TaskFormModal({ open, onClose }: TaskFormModalProps) {
               disabled={isSubmitting}
               className="rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-600 disabled:opacity-60"
             >
-              {isSubmitting ? "Saving..." : "Create Task"}
+              {isSubmitting ? "Saving..." : initialTask ? "Save Changes" : "Create Task"}
             </button>
           </div>
         </form>

@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import { createTaskApi, fetchTasks, moveTaskApi } from "../api/tasks-api";
+import { createTaskApi, fetchTasks, moveTaskApi, updateTaskApi, deleteTaskApi } from "../api/tasks-api";
 import type { CreateTaskInput } from "../model/schemas";
 import type { Task, TaskStatus } from "../model/types";
 import { loadTasksFromStorage, saveTasksToStorage } from "@/lib/storage";
@@ -17,6 +17,8 @@ interface TaskStoreState {
   setFilterQuery: (query: string) => void;
   addTask: (input: CreateTaskInput) => Promise<void>;
   moveTask: (id: string, status: TaskStatus) => Promise<void>;
+  updateTask: (id: string, input: Partial<Task>) => Promise<void>;
+  deleteTask: (id: string) => Promise<void>;
   clearError: () => void;
 }
 
@@ -102,6 +104,41 @@ export const useTaskStore = create<TaskStoreState>((set, get) => ({
       set({
         tasks: previous,
         error: err instanceof Error ? err.message : "Failed to move task",
+      });
+      persistTasks(previous);
+    }
+  },
+
+  updateTask: async (id, input) => {
+    const previous = get().tasks;
+    const next = previous.map((t) => (t.id === id ? { ...t, ...input } : t));
+    set({ tasks: next, error: null });
+    persistTasks(next);
+
+    try {
+      await updateTaskApi(id, input);
+    } catch (err) {
+      set({
+        tasks: previous,
+        error: err instanceof Error ? err.message : "Failed to update task",
+      });
+      persistTasks(previous);
+      throw err;
+    }
+  },
+
+  deleteTask: async (id) => {
+    const previous = get().tasks;
+    const next = previous.filter((t) => t.id !== id);
+    set({ tasks: next, error: null });
+    persistTasks(next);
+
+    try {
+      await deleteTaskApi(id);
+    } catch (err) {
+      set({
+        tasks: previous,
+        error: err instanceof Error ? err.message : "Failed to delete task",
       });
       persistTasks(previous);
     }

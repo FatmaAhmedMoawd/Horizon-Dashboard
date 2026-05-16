@@ -45,3 +45,10 @@ export async function updateTaskApi(
 export async function moveTaskApi(input: MoveTaskInput): Promise<Task> {
   return updateTaskApi(input.id, { status: input.status });
 }
+
+export async function deleteTaskApi(id: string): Promise<{ success: boolean }> {
+  const response = await fetch(`/api/tasks/${id}`, {
+    method: "DELETE",
+  });
+  return parseJson<{ success: boolean }>(response);
+}

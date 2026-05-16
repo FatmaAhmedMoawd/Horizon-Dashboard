@@ -13,9 +13,10 @@ interface KanbanColumnProps {
   id: TaskStatus;
   title: string;
   tasks: Task[];
+  onEditTask?: (task: Task) => void;
 }
 
-function KanbanColumnComponent({ id, title, tasks }: KanbanColumnProps) {
+function KanbanColumnComponent({ id, title, tasks, onEditTask }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id });
   const taskIds = useMemo(() => tasks.map((t) => t.id), [tasks]);
 
@@ -30,7 +31,7 @@ function KanbanColumnComponent({ id, title, tasks }: KanbanColumnProps) {
         <h3 className="text-lg font-bold text-navy-700 dark:text-white">
           {title}
         </h3>
-        <span className="rounded-full bg-lightPrimary px-3 py-1 text-xs font-bold text-brand-500 dark:bg-navy-900">
+        <span className="rounded-full bg-lightPrimary px-3 py-1 text-xs font-bold text-brand-500 dark:bg-navy-900 dark:text-white">
           {tasks.length}
         </span>
       </div>
@@ -41,7 +42,9 @@ function KanbanColumnComponent({ id, title, tasks }: KanbanColumnProps) {
               No tasks in this column
             </p>
           ) : (
-            tasks.map((task) => <TaskCard key={task.id} task={task} />)
+            tasks.map((task) => (
+              <TaskCard key={task.id} task={task} onEditTask={onEditTask} />
+            ))
           )}
         </div>
       </SortableContext>

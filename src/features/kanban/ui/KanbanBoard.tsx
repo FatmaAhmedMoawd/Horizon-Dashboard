@@ -5,6 +5,8 @@ import {
   DndContext,
   DragOverlay,
   PointerSensor,
+  TouchSensor,
+  KeyboardSensor,
   closestCorners,
   useSensor,
   useSensors,
@@ -23,7 +25,11 @@ function isTaskStatus(value: string): value is TaskStatus {
   return value === "todo" || value === "in_progress" || value === "done";
 }
 
-export default function KanbanBoard() {
+interface KanbanBoardProps {
+  onEditTask?: (task: Task) => void;
+}
+
+export default function KanbanBoard({ onEditTask }: KanbanBoardProps) {
   const tasks = useTaskStore((s) => s.tasks);
   const filterQuery = useTaskStore((s) => s.filterQuery);
   const moveTask = useTaskStore((s) => s.moveTask);
@@ -31,7 +37,14 @@ export default function KanbanBoard() {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor)
   );
 
   const columns = useMemo(
@@ -90,6 +103,7 @@ export default function KanbanBoard() {
             id={col.id}
             title={col.title}
             tasks={col.tasks}
+            onEditTask={onEditTask}
           />
         ))}
       </div>

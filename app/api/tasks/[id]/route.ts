@@ -44,3 +44,15 @@ export async function PATCH(
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: RouteParams,
+): Promise<NextResponse> {
+  await apiDelay();
+  const { id } = await params;
+  if (!id) {
+    return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+  }
+  return NextResponse.json({ success: true });
+}
