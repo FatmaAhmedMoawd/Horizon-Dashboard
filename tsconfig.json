@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "src/index.tsx",
+    "src/App.tsx",
+    "src/routes.tsx",
+    "src/views",
+    "src/layouts",
+    "src/components/calendar",
+    "src/components/charts",
+    "src/components/popover",
+    "src/components/tooltip",
+    "src/components/fixedPlugin",
+    "src/components/fields",
+    "src/components/checkbox",
+    "src/components/radio",
+    "src/components/switch",
+    "src/components/progress",
+    "src/components/card/NftCard.tsx",
+    "src/components/card/CardMenu.tsx",
+    "src/components/sidebar/RTL.tsx",
+    "src/components/sidebar/componentsrtl",
+    "src/components/navbar/RTL.tsx"
+  ]
+}
